@@ -10,13 +10,12 @@ namespace AuctionService.RequestHelpers
         public MappingProfiles()
         {
             CreateMap<Auction, AuctionDTO>()
-                .IncludeMembers(x => x.Item).ReverseMap();
+                .IncludeMembers(x => x.Item);
 
-            // zamiast reverse map
-            // CreateMap<Item, AuctionDTO>();
+             CreateMap<Item, AuctionDTO>();
 
             CreateMap<CreateAuctionDTO, Auction>()
-                .ForMember(d => d.Item, o => o.MapFrom(s => s)).ReverseMap();
+                .ForMember(d => d.Item, o => o.MapFrom(s => s));
 
             CreateMap<CreateAuctionDTO, Item>();
         }

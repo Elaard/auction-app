@@ -9,6 +9,4 @@ namespace AuctionService.Data
         public DbSet<Auction> Auctions { get; set; }
         
     }
-
-   
 }
