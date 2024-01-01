@@ -5,7 +5,16 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuctionService", "AuctionService", "{A88D65BD-951E-4166-86AA-8AD7AA7A8B42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionService", "AuctionService\AuctionService.csproj", "{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionService", "AuctionService\AuctionService.csproj", "{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SearchService", "SearchService", "{A404A20D-ABA2-45F1-BB3C-0A92B803F823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService", "SearchService\SearchService.csproj", "{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4549310E-6D42-448C-9B8C-C1045D659604}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +26,17 @@ Global
 		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020} = {A88D65BD-951E-4166-86AA-8AD7AA7A8B42}
+		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861} = {A404A20D-ABA2-45F1-BB3C-0A92B803F823}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {640293D4-80D1-4290-A969-C15627085CB8}
