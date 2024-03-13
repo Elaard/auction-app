@@ -5,16 +5,20 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuctionService", "AuctionService", "{A88D65BD-951E-4166-86AA-8AD7AA7A8B42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionService", "AuctionService\AuctionService.csproj", "{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SearchService", "SearchService", "{A404A20D-ABA2-45F1-BB3C-0A92B803F823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService", "SearchService\SearchService.csproj", "{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchService", "SearchService\SearchService.csproj", "{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4549310E-6D42-448C-9B8C-C1045D659604}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{BAF7200E-0AAB-44A4-8CDF-E673523AB89C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCore", "AppCore\AppCore.csproj", "{5787CC82-9A7A-47F1-935A-88AAEA937CDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,21 +26,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF7200E-0AAB-44A4-8CDF-E673523AB89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF7200E-0AAB-44A4-8CDF-E673523AB89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF7200E-0AAB-44A4-8CDF-E673523AB89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF7200E-0AAB-44A4-8CDF-E673523AB89C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5787CC82-9A7A-47F1-935A-88AAEA937CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5787CC82-9A7A-47F1-935A-88AAEA937CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5787CC82-9A7A-47F1-935A-88AAEA937CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5787CC82-9A7A-47F1-935A-88AAEA937CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BF0EBF57-864D-4B0D-B506-3FBBDD8D8020} = {A88D65BD-951E-4166-86AA-8AD7AA7A8B42}
 		{DF4B55B6-DDEB-40BE-861D-1EF355CDA861} = {A404A20D-ABA2-45F1-BB3C-0A92B803F823}
+		{5B86FAB4-EA14-4E9C-9C63-303EE7CE770E} = {A88D65BD-951E-4166-86AA-8AD7AA7A8B42}
+		{BAF7200E-0AAB-44A4-8CDF-E673523AB89C} = {A88D65BD-951E-4166-86AA-8AD7AA7A8B42}
+		{5787CC82-9A7A-47F1-935A-88AAEA937CDF} = {A88D65BD-951E-4166-86AA-8AD7AA7A8B42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {640293D4-80D1-4290-A969-C15627085CB8}
