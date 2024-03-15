@@ -1,34 +1,28 @@
-﻿using AuctionService.DTOs;
+﻿using AppCore.Interfaces;
+using AuctionService.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Controllers
 {
     [ApiController]
     [Route("api/auctions")]
-    public class AuctionsController(AuctionDbContext context, IMapper mapper) : ControllerBase
+    public class AuctionsController(IMapper mapper, IAuctionService auctionService) : ControllerBase
     {
-        private readonly AuctionDbContext _context = context;
         private readonly IMapper _mapper = mapper;
+        private readonly IAuctionService _auctionService = auctionService;
 
         [HttpGet]
-        public async Task<ActionResult<List<AuctionDTO>>> GetList()
+        public ActionResult<List<AuctionDTO>> GetList()
         {
-            var auctions = await _context.Auctions
-                .Include(x => x.Item)
-                .OrderBy(x => x.Item.Make)
-                .ToListAsync();
-
+            var auctions = _auctionService.GetAll();
             return _mapper.Map<List<AuctionDTO>>(auctions);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AuctionDTO>> GetAuctionById(Guid id)
+        public ActionResult<AuctionDTO> GetAuctionById(Guid id)
         {
-            var auction = await _context.Auctions
-                .Include(x => x.Item)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var auction = _auctionService.GetById(id);
 
             if (auction is null)
             {
@@ -39,76 +33,31 @@ namespace AuctionService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO auctionDto)
+        public ActionResult<AuctionDTO> CreateAuction(CreateAuctionDTO auctionDto)
         {
-            var auction = _mapper.Map<Auction>(auctionDto);
+            var result = _auctionService.Create(auctionDto);
 
-            // TODO: add current user as seller
-
-            auction.Seller = "test";
-
-            _context.Add(auction);
-
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (!result)
-            {
-                return BadRequest("Could not save changes to DB");
-            };
-
-            return CreatedAtAction(nameof(GetAuctionById), new { auction.Id }, _mapper.Map<AuctionDTO>(auction));
+            return CreatedAtAction(nameof(GetAuctionById), new { result.Id }, _mapper.Map<AuctionDTO>(result));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAuction(Guid id, UpdateAuctionDTO updateAuctionDTO)
+        public ActionResult<AuctionDTO> UpdateAuction(Guid id, UpdateAuctionDTO model)
         {
-            var auction = await _context.Auctions
-                .Include(x => x.Item)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var result = _auctionService.Update(id, model);
 
-            if (auction is null)
+            if (result is null)
             {
                 return NotFound();
-            };
-
-            auction.Item.Make = updateAuctionDTO.Make ?? auction.Item.Make;
-            auction.Item.Model = updateAuctionDTO.Model ?? auction.Item.Model;
-            auction.Item.Color = updateAuctionDTO.Color ?? auction.Item.Color;
-            auction.Item.Mileage = updateAuctionDTO.Mileage ?? auction.Item.Mileage;
-            auction.Item.Year = updateAuctionDTO.Year ?? auction.Item.Year;
-
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (!result)
-            {
-                return BadRequest("Could not save changes to DB");
             };
 
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAuction(Guid id)
+        public ActionResult<Guid> DeleteAuction(Guid id)
         {
-            var auction = await _context.Auctions.FindAsync(id);
-
-            if (auction is null)
-            {
-                return NotFound();
-            };
-
-            // TODO check seller == username
-
-            _context.Auctions.Remove(auction);
-
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (!result)
-            {
-                return BadRequest("Could not update DB");
-            };
-
-            return Ok();
+            var result = _auctionService.Delete(id);
+            return Ok(result);
         }
     }
 }

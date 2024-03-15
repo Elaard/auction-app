@@ -7,7 +7,8 @@ namespace Infrastructure.Interfaces
         bool Any(Guid id);
         Auction GetById(Guid id);
         Guid Delete(Guid id);
-        void Update(Auction auction);
+        Auction Update(Auction auction);
+        Auction Create(Auction auction);
         IQueryable<Auction> GetAll();
     }
 }
