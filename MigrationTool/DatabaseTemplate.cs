@@ -48,19 +48,19 @@ namespace MigrationTool
 
         public virtual void AddMigration(string name = "Initial")
         {
-            string command = 
+            string command =
                 $"dotnet ef migrations add {name} " +
                 $"--msbuildprojectextensionspath " +
                 $"--p {ConstructArg(Infrastructure)} " +
                 $"--startup-project {ConstructArg(StartupProject)} " +
                 $"--o {ConstructArg($"{StartupProject}\\Migrations")}";
-            
+
             ExecuteCommand(command);
         }
 
         public virtual void UpdateDatabase()
         {
-            string command = 
+            string command =
                 $"dotnet ef update database " +
                 $"--p {ConstructArg(Infrastructure)} " +
                 $"--startup-project {ConstructArg(StartupProject)}";

@@ -10,7 +10,7 @@ Console.WriteLine("_____________________________________________________\n");
 
 while (true)
 {
-    foreach(var option in  MigrationOptions.List)
+    foreach (var option in MigrationOptions.List)
     {
         Console.WriteLine($"{option.Id}. {option.Name}");
     }
@@ -19,17 +19,17 @@ while (true)
     Console.WriteLine("_____________________________________________________\n");
 
     Console.Write("Option: ");
-    
+
     var input = Console.ReadLine();
 
 
-    switch(input)
+    switch (input)
     {
         case OptionTypes.AddMigration:
             databaseHandler.AddMigration();
             break;
         case OptionTypes.UpdateDatabase:
-            databaseHandler.UpdateDatabase(); 
+            databaseHandler.UpdateDatabase();
             break;
         case OptionTypes.End:
             Environment.Exit(0);
