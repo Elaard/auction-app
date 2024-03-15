@@ -28,9 +28,9 @@ namespace AuctionService.Controllers
         {
             var auction = await _context.Auctions
                 .Include(x => x.Item)
-                .FirstOrDefaultAsync(x => x.Id  == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if(auction is null)
+            if (auction is null)
             {
                 return NotFound();
             }
@@ -51,7 +51,7 @@ namespace AuctionService.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(!result)
+            if (!result)
             {
                 return BadRequest("Could not save changes to DB");
             };
@@ -66,12 +66,10 @@ namespace AuctionService.Controllers
                 .Include(x => x.Item)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if(auction is null)
+            if (auction is null)
             {
                 return NotFound();
             };
-
-            // TODO: check is seller name user name
 
             auction.Item.Make = updateAuctionDTO.Make ?? auction.Item.Make;
             auction.Item.Model = updateAuctionDTO.Model ?? auction.Item.Model;
@@ -94,7 +92,7 @@ namespace AuctionService.Controllers
         {
             var auction = await _context.Auctions.FindAsync(id);
 
-            if(auction is null)
+            if (auction is null)
             {
                 return NotFound();
             };
@@ -105,7 +103,7 @@ namespace AuctionService.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(!result)
+            if (!result)
             {
                 return BadRequest("Could not update DB");
             };

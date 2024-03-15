@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,9 @@ namespace Infrastructure
             {
                 options.UseNpgsql(configuration.GetConnectionString("NpgsqlConnection"));
             });
+
+            services.AddScoped<IAuctionRepository, AuctionRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
 
             return services;
         }
