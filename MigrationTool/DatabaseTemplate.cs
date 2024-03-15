@@ -50,10 +50,10 @@ namespace MigrationTool
         {
             string command =
                 $"dotnet ef migrations add {name} " +
-                $"--msbuildprojectextensionspath " +
-                $"--p {ConstructArg(Infrastructure)} " +
-                $"--startup-project {ConstructArg(StartupProject)} " +
-                $"--o {ConstructArg($"{StartupProject}\\Migrations")}";
+                //$"--msbuildprojectextensionspath " +
+                $"-p {ConstructArg(Infrastructure)} " +
+                $"-s {ConstructArg(StartupProject)} " +
+                $"-o {ConstructArg($"{Infrastructure}\\Migrations")}";
 
             ExecuteCommand(command);
         }

@@ -50,7 +50,7 @@ namespace AuctionService.Controllers
                 return NotFound();
             };
 
-            return Ok(result);
+            return Ok(_mapper.Map<AuctionDTO>(result));
         }
 
         [HttpDelete("{id}")]
