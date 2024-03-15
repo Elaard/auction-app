@@ -15,4 +15,12 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\barte\source\repos\auction-app\AppCore\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\barte\source\repos\auction-app\AppCore\.editorconfig" />
+  </ItemGroup>
+
 </Project>

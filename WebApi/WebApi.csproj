@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="C:\Users\barte\source\repos\auction-app\WebApi\.editorconfig" />
     <None Include="Properties\launchSettings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
@@ -30,6 +31,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppCore\AppCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\barte\source\repos\auction-app\WebApi\.editorconfig" />
   </ItemGroup>
 
 </Project>
