@@ -6,14 +6,13 @@ services:
     ports:
         - 5432:5432
     volumes:
-        - ./postgres-data:/var/lib/postgresql/data
-  ravendb:
+        - /var/lib/postgresql/data
+  ravendb-node1:
     image: ravendb/ravendb:latest
-    container_name: ravendb
     ports: 
         - 8080:8080
+        - 38888:38889
+    environment:
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
     volumes: 
-        - ravendb-data:/data
-volumes:
-    pgdata:
-    ravendb-data:
+        - /var/lib/ravendb/data

@@ -15,7 +15,7 @@ namespace SearchService.Data
               var store = new DocumentStore
               {
                   Urls = ["http://localhost:8080"],
-                  Database = "search-service-documents"
+                  Database = "search-service-db"
               };
 
               return store.Initialize();

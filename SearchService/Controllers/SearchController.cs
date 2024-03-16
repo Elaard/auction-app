@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using SearchService.Data;
 using SearchService.Models;
 using SearchService.Requests;
 using SearchService.Responses;
@@ -9,13 +10,13 @@ namespace SearchService.Controllers
 {
     [ApiController]
     [Route("api/search")]
-    public class SearchController(IDocumentSession session) : ControllerBase
+    public class SearchController() : ControllerBase
     {
-        private readonly IDocumentSession _session = session;
-
         [HttpGet]
-        public async Task<ActionResult<List<SubjectResponse>>> SearchItems([FromQuery] SearchParams searchParams)
+        public ActionResult<List<SubjectResponse>> SearchItems([FromQuery] SearchParams searchParams)
         {
+            using IDocumentSession session = RavenDbStore.Store.OpenSession();
+
             IQueryable<Subject> query = session.Query<Subject>()
                 .OrderBy(x => x.Make);
 
@@ -23,13 +24,6 @@ namespace SearchService.Controllers
             {
                 query = query.Search(x => x.Make, searchParams.SearchTerm);
             }
-
-            query = searchParams.FilterBy switch
-            {
-                "finished" => query.Where(x => DateTime.Parse(x.AuctionEnd) < DateTime.UtcNow),
-                "endingSoon" => query.Where(x => DateTime.Parse(x.AuctionEnd) > DateTime.UtcNow && DateTime.Parse(x.AuctionEnd) < DateTime.UtcNow.AddHours(6)),
-                _ => query.Where(x => DateTime.Parse(x.AuctionEnd) > DateTime.UtcNow)
-            };
 
             query = searchParams.OrderBy switch
             {
@@ -48,11 +42,12 @@ namespace SearchService.Controllers
                 query = query.Where(x => x.Winner == searchParams.Winner);
             }
 
-            var totalCount = await query.CountAsync();
-            var results = await query
+
+            var totalCount = session.Query<Subject>().Count();
+            var results = query
                 .Skip(searchParams.PageSize * (searchParams.PageNumber - 1))
                 .Take(searchParams.PageSize)
-                .ToListAsync();
+                .ToList();
 
             return Ok(new
             {
