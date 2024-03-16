@@ -26,7 +26,9 @@ while (true)
     switch (input)
     {
         case OptionTypes.AddMigration:
-            databaseHandler.AddMigration();
+            Console.Write("Migration name: ");
+            var name = Console.ReadLine();
+            databaseHandler.AddMigration(name);
             break;
         case OptionTypes.UpdateDatabase:
             databaseHandler.UpdateDatabase();
