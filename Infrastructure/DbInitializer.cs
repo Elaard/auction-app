@@ -140,17 +140,6 @@ public class DbInitializer
             new()
             {
                 Id = Guid.NewGuid(),
-                AuctionId = Guid.Parse("466e4744-4dc5-4987-aae0-b621acfc5e39"),
-                Make = "BMW",
-                Model = "X1",
-                Color = "White",
-                Mileage = 90000,
-                Year = 2017,
-                ImageUrl = "https://cdn.pixabay.com/photo/2017/08/31/05/47/bmw-2699538_960_720.jpg"
-            },
-            new()
-            {
-                Id = Guid.NewGuid(),
                 AuctionId = Guid.Parse("dc1e4071-d19d-459b-b848-b5c3cd3d151f"),
                 Make = "Ferrari",
                 Model = "Spider",

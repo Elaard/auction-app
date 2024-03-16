@@ -13,7 +13,6 @@ namespace Infrastructure
         {
             services.AddDbContext<AuctionDbContext>(options =>
             {
-                var x = configuration.GetConnectionString("NpgsqlConnection");
                 options.UseNpgsql(configuration.GetConnectionString("NpgsqlConnection"));
             });
 

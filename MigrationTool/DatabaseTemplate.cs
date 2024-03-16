@@ -61,9 +61,9 @@ namespace MigrationTool
         public virtual void UpdateDatabase()
         {
             string command =
-                $"dotnet ef update database " +
-                $"--p {ConstructArg(Infrastructure)} " +
-                $"--startup-project {ConstructArg(StartupProject)}";
+                $"dotnet ef database update " +
+                $"-p {ConstructArg(Infrastructure)} " +
+                $"-s {ConstructArg(StartupProject)}";
 
             ExecuteCommand(command);
         }
