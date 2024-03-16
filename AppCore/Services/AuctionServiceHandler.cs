@@ -25,10 +25,19 @@ namespace AppCore.Services
             return _auctionRepository.Delete(id);
         }
 
-        public IList<Auction> GetAll()
+        public IList<Auction> GetAll(string? date)
         {
-            return _auctionRepository.GetAll()
-                .ToList();
+            var query = _auctionRepository
+                .GetAll()
+                .OrderBy(auction => auction.Subject.Make);
+
+            if (date is not null)
+            {
+                query = (IOrderedQueryable<Auction>)query
+                    .Where(a => a.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
+            }
+
+            return query.ToList();
         }
 
         public Auction GetById(Guid id)

@@ -41,4 +41,8 @@
     <EditorConfigFiles Remove="C:\Users\barte\source\repos\auction-app\WebApi\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\" />
+  </ItemGroup>
+
 </Project>

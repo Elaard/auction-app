@@ -1,59 +1,64 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Entities;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 using SearchService.Models;
 using SearchService.Requests;
+using SearchService.Responses;
 
 namespace SearchService.Controllers
 {
     [ApiController]
     [Route("api/search")]
-    public class SearchController : ControllerBase
+    public class SearchController(IDocumentSession session) : ControllerBase
     {
+        private readonly IDocumentSession _session = session;
+
         [HttpGet]
-        public async Task<ActionResult<List<Item>>> SearchItems([FromQuery] SearchParams searchParams)
+        public async Task<ActionResult<List<SubjectResponse>>> SearchItems([FromQuery] SearchParams searchParams)
         {
-            var query = DB.PagedSearch<Item, Item>();
+            IQueryable<Subject> query = session.Query<Subject>()
+                .OrderBy(x => x.Make);
 
-            query.Sort(x => x.Ascending(a => a.Make));
-
-            if(!String.IsNullOrEmpty(searchParams.SearchTerm))
+            if (!String.IsNullOrEmpty(searchParams.SearchTerm))
             {
-                query.Match(Search.Full, searchParams.SearchTerm).SortByTextScore();
+                query = query.Search(x => x.Make, searchParams.SearchTerm);
             }
+
+            query = searchParams.FilterBy switch
+            {
+                "finished" => query.Where(x => DateTime.Parse(x.AuctionEnd) < DateTime.UtcNow),
+                "endingSoon" => query.Where(x => DateTime.Parse(x.AuctionEnd) > DateTime.UtcNow && DateTime.Parse(x.AuctionEnd) < DateTime.UtcNow.AddHours(6)),
+                _ => query.Where(x => DateTime.Parse(x.AuctionEnd) > DateTime.UtcNow)
+            };
 
             query = searchParams.OrderBy switch
             {
-                "make" => query.Sort(x => x.Ascending(a => a.Make)),
-                "new" => query.Sort(x => x.Descending(a => a.CreatedAt)),
-                _ => query.Sort(x=> x.Ascending(a => a.AuctionEnd))
+                "make" => query.OrderBy(x => x.Make),
+                "new" => query.OrderByDescending(x => x.CreatedAt),
+                _ => query.OrderBy(x => x.AuctionEnd)
             };
 
-            query = searchParams.FilerBy switch
+            if (!string.IsNullOrEmpty(searchParams.Seller))
             {
-                "finished" => query.Match(x => x.AuctionEnd < DateTime.UtcNow),
-                "endingSoon" => query.Match(x => x.AuctionEnd > DateTime.UtcNow.AddHours(6) && x.AuctionEnd > DateTime.UtcNow),
-                _ => query.Match(x => x.AuctionEnd > DateTime.UtcNow)
-            };
-
-            if(!string.IsNullOrEmpty(searchParams.Seller))
-            {
-                query.Match(x => x.Seller == searchParams.Seller);
+                query = query.Where(x => x.Seller == searchParams.Seller);
             }
 
             if (!string.IsNullOrEmpty(searchParams.Winner))
             {
-                query.Match(x => x.Winner == searchParams.Winner);
+                query = query.Where(x => x.Winner == searchParams.Winner);
             }
 
-            query.PageNumber(searchParams.PageNumber).PageSize(searchParams.PageSize);
-
-            var result = await query.ExecuteAsync();
+            var totalCount = await query.CountAsync();
+            var results = await query
+                .Skip(searchParams.PageSize * (searchParams.PageNumber - 1))
+                .Take(searchParams.PageSize)
+                .ToListAsync();
 
             return Ok(new
             {
-                results = result.Results,
-                pageCount = result.PageCount,
-                totalCount = result.TotalCount
+                results,
+                pageCount = (int)Math.Ceiling((double)totalCount / searchParams.PageSize),
+                totalCount
             });
         }
     }

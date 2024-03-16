@@ -13,9 +13,9 @@ namespace AuctionService.Controllers
         private readonly IAuctionService _auctionService = auctionService;
 
         [HttpGet]
-        public ActionResult<List<AuctionDTO>> GetList()
+        public ActionResult<List<AuctionDTO>> GetList(string? date)
         {
-            var auctions = _auctionService.GetAll();
+            var auctions = _auctionService.GetAll(date);
             return _mapper.Map<List<AuctionDTO>>(auctions);
         }
 

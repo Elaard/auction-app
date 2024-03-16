@@ -5,7 +5,7 @@ namespace AppCore.Interfaces
 {
     public interface IAuctionService
     {
-        IList<Auction> GetAll();
+        IList<Auction> GetAll(string? date);
         Auction GetById(Guid id);
         Auction Create(CreateAuctionDTO auction);
         Guid Delete(Guid id);
