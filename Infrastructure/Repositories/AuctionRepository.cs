@@ -16,6 +16,8 @@ namespace Infrastructure.Repositories
         public Auction Create(Auction auction)
         {
             _context.Auctions.Add(auction);
+            _context.SaveChanges();
+
             return auction;
         }
 

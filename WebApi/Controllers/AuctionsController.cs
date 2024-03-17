@@ -1,16 +1,19 @@
 ﻿using AppCore.Interfaces;
 using AuctionService.DTOs;
 using AutoMapper;
+using Contracts;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionService.Controllers
 {
     [ApiController]
     [Route("api/auctions")]
-    public class AuctionsController(IMapper mapper, IAuctionService auctionService) : ControllerBase
+    public class AuctionsController(IMapper mapper, IAuctionService auctionService, IPublishEndpoint publishEndpoint) : ControllerBase
     {
         private readonly IMapper _mapper = mapper;
         private readonly IAuctionService _auctionService = auctionService;
+        private readonly IPublishEndpoint _publishEndpoint = publishEndpoint;
 
         [HttpGet]
         public ActionResult<List<AuctionDTO>> GetList(string? date)
@@ -33,9 +36,13 @@ namespace AuctionService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<AuctionDTO> CreateAuction(CreateAuctionDTO auctionDto)
+        public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO auctionDto)
         {
             var result = _auctionService.Create(auctionDto);
+
+            var newAuction = _mapper.Map<AuctionDTO>(result);
+
+            await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
 
             return CreatedAtAction(nameof(GetAuctionById), new { result.Id }, _mapper.Map<AuctionDTO>(result));
         }

@@ -23,6 +23,7 @@ namespace SearchService.Controllers
             if (!String.IsNullOrEmpty(searchParams.SearchTerm))
             {
                 query = query.Search(x => x.Make, searchParams.SearchTerm);
+                query = query.Search(x => x.Model, searchParams.SearchTerm);
             }
 
             query = searchParams.OrderBy switch

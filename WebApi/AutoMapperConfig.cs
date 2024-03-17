@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using AuctionService.DTOs;
+using AutoMapper;
+using Contracts;
 
 namespace WebApi
 {
@@ -6,6 +8,7 @@ namespace WebApi
     {
         public AutoMapperConfig()
         {
+            CreateMap<AuctionDTO, AuctionCreated>();
         }
     }
 }
