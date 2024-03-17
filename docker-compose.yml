@@ -16,3 +16,8 @@ services:
       - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
     volumes: 
         - /var/lib/ravendb/data
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+        - 5672:5672
+        - 15672:15672
