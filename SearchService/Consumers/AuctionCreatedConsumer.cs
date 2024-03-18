@@ -7,7 +7,7 @@ using SearchService.Models;
 
 namespace SearchService.Consumers
 {
-    public class ActionCreatedConsumer(IMapper mapper) : IConsumer<AuctionCreated>
+    public class AuctionCreatedConsumer(IMapper mapper) : IConsumer<AuctionCreated>
     {
         private readonly IMapper _mapper = mapper;
 

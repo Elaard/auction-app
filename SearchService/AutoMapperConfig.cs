@@ -13,6 +13,8 @@ namespace SearchService
                 .ForMember(sr => sr.Id, s => s.MapFrom(d => d.Id.ToString()));
 
             CreateMap<AuctionCreated, Subject>();
+
+            CreateMap<AuctionUpdated, Subject>();
         }
     }
 }

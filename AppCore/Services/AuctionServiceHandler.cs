@@ -45,9 +45,25 @@ namespace AppCore.Services
             return _auctionRepository.GetById(id);
         }
 
+        public void Save()
+        {
+            _auctionRepository.Save();
+        }
+
         public Auction Update(Guid id, UpdateAuctionDTO model)
         {
-            var auction = _mapper.Map<Auction>(model);
+            var auction = new Auction()
+            {
+                Id = id,
+                Subject = new Subject()
+                {
+                    Model = model.Model,
+                    Year = model.Year,
+                    Color = model.Color,
+                    Mileage = model.Mileage,
+                    ImageUrl = model.ImageUrl,
+                }
+            };
 
             return _auctionRepository.Update(auction);
         }

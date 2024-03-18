@@ -44,26 +44,36 @@ namespace AuctionService.Controllers
 
             await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
 
+            _auctionService.Save();
+
             return CreatedAtAction(nameof(GetAuctionById), new { result.Id }, _mapper.Map<AuctionDTO>(result));
         }
 
         [HttpPut("{id}")]
-        public ActionResult<AuctionDTO> UpdateAuction(Guid id, UpdateAuctionDTO model)
+        public async Task<ActionResult<AuctionDTO>> UpdateAuction(Guid id, UpdateAuctionDTO model)
         {
             var result = _auctionService.Update(id, model);
+            var auctionDto = _mapper.Map<AuctionDTO>(result);
 
-            if (result is null)
-            {
-                return NotFound();
-            };
+            await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auctionDto));
 
-            return Ok(_mapper.Map<AuctionDTO>(result));
+            _auctionService.Save();
+
+            return Ok(auctionDto);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Guid> DeleteAuction(Guid id)
+        public async Task<ActionResult<Guid>> DeleteAuction(Guid id)
         {
             var result = _auctionService.Delete(id);
+
+            await _publishEndpoint.Publish(new AuctionDeleted
+            {
+                Id = result.ToString()
+            });
+
+            _auctionService.Save();
+
             return Ok(result);
         }
     }

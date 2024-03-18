@@ -10,5 +10,6 @@ namespace Infrastructure.Interfaces
         Auction Update(Auction auction);
         Auction Create(Auction auction);
         IQueryable<Auction> GetAll();
+        void Save();
     }
 }

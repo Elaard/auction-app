@@ -11,6 +11,8 @@ namespace AppCore
             CreateMap<Auction, AuctionDTO>()
                 .IncludeMembers(x => x.Subject);
 
+            CreateMap<UpdateAuctionDTO, Auction>();
+
             CreateMap<Subject, AuctionDTO>();
 
             CreateMap<CreateAuctionDTO, Auction>()

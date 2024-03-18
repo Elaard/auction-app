@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -14,6 +15,10 @@ namespace Infrastructure
             DbInitializer.Init(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
     }
 }

@@ -16,16 +16,20 @@ namespace Infrastructure.Repositories
         public Auction Create(Auction auction)
         {
             _context.Auctions.Add(auction);
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
             return auction;
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
         }
 
         public Guid Delete(Guid id)
         {
             var entity = GetById(id);
             _context.Remove(entity);
-            _context.SaveChanges();
 
             return entity.Id;
         }
@@ -49,8 +53,6 @@ namespace Infrastructure.Repositories
             auction.Subject.Color = model.Subject.Color ?? auction.Subject.Color;
             auction.Subject.Mileage = model.Subject.Mileage ?? auction.Subject.Mileage;
             auction.Subject.Year = model.Subject.Year ?? auction.Subject.Year;
-
-            _context.SaveChanges();
 
             return auction;
         }

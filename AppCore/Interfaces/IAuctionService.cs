@@ -10,5 +10,6 @@ namespace AppCore.Interfaces
         Auction Create(CreateAuctionDTO auction);
         Guid Delete(Guid id);
         Auction Update(Guid id, UpdateAuctionDTO auction);
+        void Save();
     }
 }

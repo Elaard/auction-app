@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Requests\**" />
+    <Content Remove="Requests\**" />
+    <EmbeddedResource Remove="Requests\**" />
+    <None Remove="Requests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Properties\launchSettings.json" />
   </ItemGroup>
 
@@ -25,6 +32,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.3" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -41,10 +49,6 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\barte\source\repos\auction-app\WebApi\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Requests\" />
   </ItemGroup>
 
 </Project>
