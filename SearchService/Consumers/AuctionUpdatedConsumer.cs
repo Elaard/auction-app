@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Contracts;
+﻿using Contracts;
 using MassTransit;
 using Raven.Client.Documents.Session;
 using SearchService.Data;
@@ -7,10 +6,8 @@ using SearchService.Models;
 
 namespace SearchService.Consumers
 {
-    public class AuctionUpdatedConsumer(IMapper mapper) : IConsumer<AuctionUpdated>
+    public class AuctionUpdatedConsumer() : IConsumer<AuctionUpdated>
     {
-        private readonly IMapper _mapper = mapper;
-
         public async Task Consume(ConsumeContext<AuctionUpdated> context)
         {
             using IAsyncDocumentSession session = RavenDbStore.Store.OpenAsyncSession();
