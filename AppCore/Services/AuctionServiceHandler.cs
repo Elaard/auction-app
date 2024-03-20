@@ -15,8 +15,6 @@ namespace AppCore.Services
         {
             var auction = _mapper.Map<Auction>(model);
 
-            auction.Seller = "test";
-
             return _auctionRepository.Create(auction);
         }
 

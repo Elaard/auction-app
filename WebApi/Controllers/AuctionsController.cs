@@ -3,6 +3,7 @@ using AuctionService.DTOs;
 using AutoMapper;
 using Contracts;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionService.Controllers
@@ -35,9 +36,12 @@ namespace AuctionService.Controllers
             return _mapper.Map<AuctionDTO>(auction);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO auctionDto)
         {
+            auctionDto.Seller = User.Identity.Name;
+
             var result = _auctionService.Create(auctionDto);
 
             var newAuction = _mapper.Map<AuctionDTO>(result);
@@ -49,6 +53,7 @@ namespace AuctionService.Controllers
             return CreatedAtAction(nameof(GetAuctionById), new { result.Id }, _mapper.Map<AuctionDTO>(result));
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<AuctionDTO>> UpdateAuction(Guid id, UpdateAuctionDTO model)
         {
@@ -62,6 +67,7 @@ namespace AuctionService.Controllers
             return Ok(auctionDto);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Guid>> DeleteAuction(Guid id)
         {
