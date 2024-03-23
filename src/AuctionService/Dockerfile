@@ -3,8 +3,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -16,6 +15,11 @@ COPY ["src/IdentityService/IdentityService.csproj", "src/IdentityService/"]
 COPY ["src/SearchService/SearchService.csproj", "src/SearchService/"]
 
 RUN dotnet restore "src/AuctionService/AuctionService.csproj"
+RUN dotnet restore "src/Contracts/Contracts.csproj"
+RUN dotnet restore "src/GatewayService/GatewayService.csproj"
+RUN dotnet restore "src/IdentityService/IdentityService.csproj"
+RUN dotnet restore "src/SearchService/SearchService.csproj"
+
 COPY . .
 WORKDIR "/src/src/AuctionService"
 RUN dotnet build "./AuctionService.csproj" -c $BUILD_CONFIGURATION -o /app/build
