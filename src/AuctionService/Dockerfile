@@ -1,34 +1,30 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
 
-# copy all csproj files and restore as distinct layers. Use of the same COPY command
-# for every dockerfile in the project to take advantage of docker caching
-COPY auction-app.sln auction-app.sln
-COPY AuctionService/WebApi/WebApi.csproj AuctionService/WebApi/WebApi.csproj
-COPY AuctionService/Infrastructure/Infrastructure.csproj AuctionService/Infrastructure/Infrastructure.csproj
-COPY AuctionService/AppCore/AppCore.csproj AuctionService/AppCore/AppCore.csproj
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["src/AuctionService/AuctionService.csproj", "src/AuctionService/"]
+COPY ["src/Contracts/Contracts.csproj", "src/Contracts/"]
+COPY ["src/GatewayService/GatewayService.csproj", "src/GatewayService/"]
+COPY ["src/IdentityService/IdentityService.csproj", "src/IdentityService/"]
+COPY ["src/SearchService/SearchService.csproj", "src/SearchService/"]
 
-COPY SearchService/SearchService/SearchService.csproj SearchService/SearchService/SearchService.csproj
+RUN dotnet restore "src/AuctionService/AuctionService.csproj"
+COPY . .
+WORKDIR "/src/src/AuctionService"
+RUN dotnet build "./AuctionService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-COPY src/GatewayService/GatewayService.csproj src/GatewayService/GatewayService.csproj
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./AuctionService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityService.csproj
-
-COPY Contracts/Contracts.csproj Contracts/Contracts.csproj
-
-# Restore package deps
-RUN dotnet restore auction-app.sln
-
-# Copy the app folders over
-COPY AuctionService/AuctionService AuctionService/AuctionService
-COPY Contracts Contracts
-
-WORKDIR /app/src/AuctionService
-RUN dotnet publish -c Release -o /app/src/out
-
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/src/out .
-ENTRYPOINT ["dotnet", "AuctionService.dll" ]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "AuctionService.dll"]
