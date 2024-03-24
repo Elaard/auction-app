@@ -24,14 +24,14 @@ RUN dotnet restore "src/SearchService/SearchService.csproj"
 
 COPY . .
 COPY "src/Contracts" "src/Contracts"
-WORKDIR "/src/src/AuctionService"
-RUN dotnet build "./AuctionService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/SearchService"
+RUN dotnet build "./SearchService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AuctionService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./SearchService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AuctionService.dll"]
+ENTRYPOINT ["dotnet", "SearchService.dll"]

@@ -43,6 +43,8 @@ namespace SearchService.Data
                     session.Store(document);
                 });
 
+                Console.WriteLine(documents);
+
                 session.SaveChanges();
             }
             catch (Exception ex)
